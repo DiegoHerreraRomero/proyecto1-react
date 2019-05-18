@@ -107,3 +107,7 @@ table th {
   background-color: #4CAF50;
   color: white;
 }
+
+.text-red {
+  color: red;
+}

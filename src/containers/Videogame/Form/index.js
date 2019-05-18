@@ -4,7 +4,7 @@ import { submitVideogame as submitVideogameCreator } from '../../../redux/videog
 import VideogameForm from '../../../components/Videogame/Form'
 
 const VideogameFormContainer = (props) => {
-  const { submitVideogame, tempVideogame, updateTempVideogame, closeForm } = props
+  const { submitVideogame, tempVideogame, updateTempVideogame, closeForm, validateForm } = props
 
   return (
     <VideogameForm
@@ -12,6 +12,7 @@ const VideogameFormContainer = (props) => {
       submitVideogame={submitVideogame}
       updateTempVideogame={updateTempVideogame}
       closeForm={closeForm}
+      validateForm={validateForm}
     />
   )
 }

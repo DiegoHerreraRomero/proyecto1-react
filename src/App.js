@@ -9,7 +9,14 @@ const defaultVideogame = {
   year: '',
   company: '',
   platforms: '',
-  principalCharacter: ''
+  principalCharacter: '',
+  errors: {
+    name: null,
+    year: null,
+    company: null,
+    platforms: null,
+    principalCharacter: null
+  }
 }
 
 const App = () => {
@@ -44,12 +51,90 @@ const App = () => {
     setUseForm(false)
   }
 
+  const validateForm = submitVideogame => {
+    let errorsProcessed = {}
+    let valid = true
+    if (tempVideogame.name === '') {
+      valid = false
+      errorsProcessed = {
+        ...errorsProcessed,
+        name: 'No puede estar en blanco'
+      }
+    } else {
+      errorsProcessed = {
+        ...errorsProcessed,
+        name: null
+      }
+    }
+    if (tempVideogame.year === '') {
+      valid = false
+      errorsProcessed = {
+        ...errorsProcessed,
+        year: 'No puede estar en blanco'
+      }
+    } else {
+      errorsProcessed = {
+        ...errorsProcessed,
+        year: null
+      }
+    }
+    if (tempVideogame.company === '') {
+      valid = false
+      errorsProcessed = {
+        ...errorsProcessed,
+        company: 'No puede estar en blanco'
+      }
+    } else {
+      errorsProcessed = {
+        ...errorsProcessed,
+        company: null
+      }
+    }
+    if (tempVideogame.platforms === '') {
+      valid = false
+      errorsProcessed = {
+        ...errorsProcessed,
+        platforms: 'No puede estar en blanco'
+      }
+    } else {
+      errorsProcessed = {
+        ...errorsProcessed,
+        platforms: null
+      }
+    }
+    if (tempVideogame.principalCharacter === '') {
+      valid = false
+      errorsProcessed = {
+        ...errorsProcessed,
+        principalCharacter: 'No puede estar en blanco'
+      }
+    } else {
+      errorsProcessed = {
+        ...errorsProcessed,
+        principalCharacter: null
+      }
+    }
+    setTempVideogame({
+      ...tempVideogame,
+      errors: {
+        ...tempVideogame.errors,
+        ...errorsProcessed
+      }
+    })
+    if (valid) {
+      submitVideogame(tempVideogame)
+      closeForm()
+    }
+  }
+
   return (
     <div className='index'>
+      <h2>Videojuegos</h2>
       { useForm && (
         <VideogameFormContainer
           tempVideogame={tempVideogame}
           updateTempVideogame={updateTempVideogame}
+          validateForm={validateForm}
           closeForm={closeForm}
         />
       )}
