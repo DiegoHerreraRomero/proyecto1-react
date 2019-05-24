@@ -79,9 +79,9 @@ export default (state = initialState, action) => {
 
 const initialState = {
   videogames: [
-    { id: 1, name: 'Super Mario Bros', year: '1985', company: 'Nintendo', platforms: 'NES', principalCharacter: 'Mario' },
-    { id: 2, name: 'Sonic the Hedgehog', year: '1991', company: 'Sega', platforms: 'Sega Mega Drive', principalCharacter: 'Sonic' },
-    { id: 3, name: 'Donkey Kong Country', year: '1994', company: 'Rare', platforms: 'SNES', principalCharacter: 'Donkey Kong' }
+    { id: 1, name: 'Super Mario Bros', year: '1985', company: 'Nintendo', platforms: 1, principalCharacter: 'Mario' },
+    { id: 2, name: 'Sonic the Hedgehog', year: '1991', company: 'Sega', platforms: 3, principalCharacter: 'Sonic' },
+    { id: 3, name: 'Donkey Kong Country', year: '1994', company: 'Rare', platforms: 2, principalCharacter: 'Donkey Kong' }
   ],
   filters: {
     name: '',

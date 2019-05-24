@@ -1,19 +1,14 @@
 import React from 'react'
 
 const VideogameForm = (props) => {
-  const { tempVideogame, submitVideogame, updateTempVideogame, closeForm, validateForm } = props
+  const { tempVideogame, updateTempVideogame, validateForm, action } = props
 
   const sendSubmit = e => {
     e.preventDefault()
-    validateForm(submitVideogame)
+    validateForm()
   }
 
-  const returnToTable = e => {
-    e.preventDefault()
-    closeForm()
-  }
-
-  return (
+  let view = (
     <div className='form'>
       <h1>Formulario</h1>
 
@@ -59,10 +54,29 @@ const VideogameForm = (props) => {
         </label>
         <input className='input-form' type='text' onChange={updateTempVideogame} name='principalCharacter' value={tempVideogame.principalCharacter} />
         <input type='submit' value='Guardar' />
-        <button className='return' onClick={returnToTable}>Volver</button>
       </form>
     </div>
   )
+
+  if (action === 'show') {
+    view = (
+      <div className='form'>
+        <h1>Información</h1>
+        <h5>Nombre</h5>
+        <label>{tempVideogame.name}</label>
+        <h5>Año</h5>
+        <label>{tempVideogame.year}</label>
+        <h5>Compañia</h5>
+        <label>{tempVideogame.company}</label>
+        <h5>Plataformas</h5>
+        <label>{tempVideogame.platforms}</label>
+        <h5>Personaje principal</h5>
+        <label>{tempVideogame.principalCharacter}</label>
+      </div>
+    )
+  }
+
+  return view
 }
 
 export default VideogameForm

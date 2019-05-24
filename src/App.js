@@ -1,152 +1,91 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './App.css'
 import VideogameTableContainer from './containers/Videogame/Table'
 import VideogameFormContainer from './containers/Videogame/Form'
+import PlatformTableContainer from './containers/Platform/Table'
+import PlatformFormContainer from './containers/Platform/Form'
+import { BrowserRouter as Router, Switch, Route, NavLink } from 'react-router-dom'
 
-const defaultVideogame = {
-  id: '',
-  name: '',
-  year: '',
-  company: '',
-  platforms: '',
-  principalCharacter: '',
-  errors: {
-    name: null,
-    year: null,
-    company: null,
-    platforms: null,
-    principalCharacter: null
-  }
-}
+const Index = () => <h1>Inicio</h1>
+const About = () => (
+  <div>
+    <h1>About</h1>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      Cras ut porta eros. Quisque porta justo et ex luctus ultrices.
+      Vestibulum arcu odio, consequat sed orci vel, sodales tincidunt tellus.
+      Nulla facilisi. Curabitur erat dui, lacinia quis luctus et, faucibus sit amet justo.
+      Aliquam erat volutpat. Sed posuere erat ut dolor blandit fermentum.
+      Integer quis commodo nisl. Phasellus ultrices massa odio, sed facilisis leo egestas at.
+      Vivamus fermentum nibh dignissim turpis aliquam varius.
+      Fusce quis dui sodales, ultrices ex eget, sagittis magna.
+      Morbi laoreet nisl non lorem rhoncus, at ultrices odio egestas.
+      Interdum et malesuada fames ac ante ipsum primis in faucibus.
+      Quisque ante leo, mollis quis consectetur id, ullamcorper et sem.
+    </p>
+  </div>
+)
 
-const App = () => {
-  const [ useForm, setUseForm ] = useState(false)
-  const [ tempVideogame, setTempVideogame ] = useState(defaultVideogame)
+function AppRouter () {
+  const Videogames = () => (
+    <VideogameTableContainer />
+  )
 
-  const newVideogame = e => {
-    setUseForm(true)
-  }
-
-  const editVideogame = videogame => {
-    setTempVideogame(videogame)
-    setUseForm(true)
-  }
-
-  const updateTempVideogame = e => {
-    let value = e.target.value
-    switch (e.target.name) {
-      case 'year':
-        value = value.replace(/^\D+/g, '').substring(0, 4)
-        break
-      default:
-    }
-    setTempVideogame({
-      ...tempVideogame,
-      [e.target.name]: value
-    })
+  const Videogame = (props) => {
+    const { id, action } = props.match.params
+    return (
+      <VideogameFormContainer
+        id={id}
+        action={action}
+      />
+    )
   }
 
-  const closeForm = e => {
-    setTempVideogame(defaultVideogame)
-    setUseForm(false)
-  }
+  const Platforms = () => (
+    <PlatformTableContainer />
+  )
 
-  const validateForm = submitVideogame => {
-    let errorsProcessed = {}
-    let valid = true
-    if (tempVideogame.name === '') {
-      valid = false
-      errorsProcessed = {
-        ...errorsProcessed,
-        name: 'No puede estar en blanco'
-      }
-    } else {
-      errorsProcessed = {
-        ...errorsProcessed,
-        name: null
-      }
-    }
-    if (tempVideogame.year === '') {
-      valid = false
-      errorsProcessed = {
-        ...errorsProcessed,
-        year: 'No puede estar en blanco'
-      }
-    } else {
-      errorsProcessed = {
-        ...errorsProcessed,
-        year: null
-      }
-    }
-    if (tempVideogame.company === '') {
-      valid = false
-      errorsProcessed = {
-        ...errorsProcessed,
-        company: 'No puede estar en blanco'
-      }
-    } else {
-      errorsProcessed = {
-        ...errorsProcessed,
-        company: null
-      }
-    }
-    if (tempVideogame.platforms === '') {
-      valid = false
-      errorsProcessed = {
-        ...errorsProcessed,
-        platforms: 'No puede estar en blanco'
-      }
-    } else {
-      errorsProcessed = {
-        ...errorsProcessed,
-        platforms: null
-      }
-    }
-    if (tempVideogame.principalCharacter === '') {
-      valid = false
-      errorsProcessed = {
-        ...errorsProcessed,
-        principalCharacter: 'No puede estar en blanco'
-      }
-    } else {
-      errorsProcessed = {
-        ...errorsProcessed,
-        principalCharacter: null
-      }
-    }
-    setTempVideogame({
-      ...tempVideogame,
-      errors: {
-        ...tempVideogame.errors,
-        ...errorsProcessed
-      }
-    })
-    if (valid) {
-      submitVideogame(tempVideogame)
-      closeForm()
-    }
+  const Platform = (props) => {
+    const { id, action } = props.match.params
+    return (
+      <PlatformFormContainer
+        id={id}
+        action={action}
+      />
+    )
   }
-
   return (
-    <div className='index'>
-      <h2>Videojuegos</h2>
-      { useForm && (
-        <VideogameFormContainer
-          tempVideogame={tempVideogame}
-          updateTempVideogame={updateTempVideogame}
-          validateForm={validateForm}
-          closeForm={closeForm}
-        />
-      )}
-      { !useForm && (
-        <div>
-          <VideogameTableContainer
-            editVideogame={editVideogame}
-          />
-          <button onClick={newVideogame} className='green'>Nuevo videojuego</button>
-        </div>
-      )}
-    </div>
+    <Router>
+      <ul className='navbar'>
+        <li><NavLink exact to='/' activeClassName='active'>Inicio</NavLink></li>
+        <li><NavLink exact to='/about' activeClassName='active'>About</NavLink></li>
+        <li className='dropdown'>
+          <NavLink to='/videogames' className='dropbtn' activeClassName='active'>Videojuegos</NavLink>
+          <div className='dropdown-content'>
+            <NavLink exact to='/videogames' >Lista de videojuegos</NavLink>
+            <NavLink exact to='/videogames/new'>Nuevo videojuego</NavLink>
+          </div>
+        </li>
+        <li className='dropdown'>
+          <NavLink to='/platforms' className='dropbtn' activeClassName='active'>Plataformas</NavLink>
+          <div className='dropdown-content'>
+            <NavLink exact to='/platforms' >Lista de plataformas</NavLink>
+            <NavLink exact to='/platforms/new'>Nueva plataforma</NavLink>
+          </div>
+        </li>
+      </ul>
+      <Switch>
+        <Route path='/' exact component={Index} />
+        <Route path='/about' exact component={About} />
+        <Route path='/videogames' exact component={Videogames} />
+        <Route path='/videogames/new' exact component={Videogame} />
+        <Route path='/videogames/:id/:action' exact component={Videogame} />
+        <Route path='/platforms' exact component={Platforms} />
+        <Route path='/platforms/new' exact component={Platform} />
+        <Route path='/platforms/:id/:action' exact component={Platform} />
+      </Switch>
+    </Router>
   )
 }
-export default App
+
+export default AppRouter
